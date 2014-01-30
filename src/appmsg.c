@@ -39,7 +39,6 @@ static void out_failed_handler(DictionaryIterator *failed, AppMessageResult reas
 static void out_received_handler(DictionaryIterator *iterator, void *context) {
     //APP_LOG(APP_LOG_LEVEL_INFO, "App Message sent");
 	ack_count++;
-  	//send_next_timer = app_timer_register(100 , timer_callback, NULL);
 	
 }
 void accel_data_handler(AccelData *data, uint32_t num_samples) {
@@ -66,7 +65,6 @@ void handle_init(void) {
     text_layer_set_font(text_layer, font_count);
     layer_add_child(window_layer, text_layer_get_layer(text_layer));
 
-	//handle_second_tick(time(NULL), units_changed);
     window_stack_push(window, true /* Animated */);
     tick_timer_service_subscribe(SECOND_UNIT, handle_second_tick);
 	accel_service_set_sampling_rate(sample_freq);
