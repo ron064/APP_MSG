@@ -1,0 +1,29 @@
+{
+    "versionLabel": "1.0",
+    "uuid": "0dafc253-74fa-43fd-a348-9f926afe2efc",
+    "appKeys": {
+        "Count": 43,
+        "Data": 45,
+        "Time": 44
+    },
+    "longName": "APP_MSG_test",
+    "versionCode": 1,
+    "capabilities": [
+        ""
+    ],
+    "shortName": "APP_MSG_test",
+    "companyName": "ron64",
+    "watchapp": {
+        "watchface": false
+    },
+    "resources": {
+        "media": [
+            {
+                "menuIcon": true,
+                "type": "png",
+                "name": "IMAGE_MENU_ICON",
+                "file": "images/menu_icon_app_msg.png"
+            }
+        ]
+    }
+}
