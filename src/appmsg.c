@@ -31,6 +31,8 @@ void handle_second_tick(struct tm *tick_time, TimeUnits units_changed)
 	
 	snprintf(count_text,sizeof(count_text) ," sent: %03d \n ack:  %03d \n faild: %03d", acc_count,ack_count,fail_count);
     text_layer_set_text(text_layer, count_text);
+	if (acc_count %100==0)
+		APP_LOG(APP_LOG_LEVEL_INFO, " sent: %03d    ack: %03d   faild: %03d", acc_count,ack_count,fail_count);
 
 }
 static void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason, void *context) {
