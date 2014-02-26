@@ -1,8 +1,9 @@
 {
-    "versionLabel": "1.0",
+    "versionLabel": "1.1",
     "uuid": "0dafc253-74fa-43fd-a348-9f926afe2efc",
     "appKeys": {
         "Count": 43,
+        "XYZ": 46,
         "Data": 45,
         "Time": 44
     },
