@@ -1,6 +1,6 @@
 #include <pebble.h>
 
-uint8_t sample_freq = ACCEL_SAMPLING_25HZ;
+uint8_t sample_freq = ACCEL_SAMPLING_50HZ;
 Window *window;
 TextLayer *text_layer;
 uint16_t sample_count=0;
@@ -112,10 +112,12 @@ void handle_init(void) {
 	app_message_register_outbox_sent(out_received_handler);
     app_message_open(64, 600);
 	timer = app_timer_register(timer_interval, timer_callback, NULL);
+	app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
 }
 
 void handle_deinit(void) {
     tick_timer_service_unsubscribe();
+	app_comm_set_sniff_interval(SNIFF_INTERVAL_NORMAL);
     app_message_deregister_callbacks();
 	free(acc_data);
 	text_layer_destroy(text_layer);
