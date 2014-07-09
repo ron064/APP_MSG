@@ -28,7 +28,7 @@ void request_send_acc(void) {
 	
 
 	snprintf(xyz_str,22 ,"X,Y,Z: %d,%d,%d",acc_data[0],acc_data[1],acc_data[2] );
-    //APP_LOG(APP_LOG_LEVEL_DEBUG, "%s",xyz_str);
+	//APP_LOG(APP_LOG_LEVEL_DEBUG, "%s",xyz_str);
 	
 	app_message_outbox_begin(&iter);
 	Tuplet xyzstr_val = TupletCString(KEY_XYZ, xyz_str);
@@ -53,24 +53,24 @@ void timer_callback (void *data) {
 }
 void handle_second_tick(struct tm *tick_time, TimeUnits units_changed)
 {
-    // Need to be static because they're used by the system later.
-    static char count_text[] = "                                                                    ";
+	// Need to be static because they're used by the system later.
+	static char count_text[] = "                                                                    ";
 
 	snprintf(count_text,sizeof(count_text) ,"sample:%03d \n   sent:  %03d \n   ack:   %03d \n   faild:  %03d", 
-			 								sample_count, acc_count, ack_count, fail_count);
-    text_layer_set_text(text_layer, count_text);
+		sample_count, acc_count, ack_count, fail_count);
+	text_layer_set_text(text_layer, count_text);
 	if (acc_count %100==0)
 		APP_LOG(APP_LOG_LEVEL_INFO, "sample:%03d sent: %03d  ack: %03d  faild: %03d", 
-									sample_count, acc_count, ack_count, fail_count);
+			sample_count, acc_count, ack_count, fail_count);
 
 }
 static void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason, void *context) {
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "App Message Failed to Send(%3d)! error: 0x%02X ",++fail_count,reason);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "App Message Failed to Send(%3d)! error: 0x%02X ",++fail_count,reason);
 	msg_run = false;
 
 }
 static void out_received_handler(DictionaryIterator *iterator, void *context) {
-    //APP_LOG(APP_LOG_LEVEL_INFO, "App Message sent");
+	//APP_LOG(APP_LOG_LEVEL_INFO, "App Message sent");
 	ack_count++;
 	msg_run = false;
 
@@ -84,25 +84,25 @@ void accel_data_handler(AccelData *data, uint32_t num_samples) {
 		acc_data[cnt++]= d->y;
 		acc_data[cnt++]= d->z;
 	}
-    acc_time=time(NULL);
+	acc_time=time(NULL);
 	waiting_data = true;
 
 	sample_count++;
 }
 void handle_init(void) {
-    Layer *window_layer;
-    TimeUnits units_changed = SECOND_UNIT;
+	Layer *window_layer;
+	TimeUnits units_changed = SECOND_UNIT;
 	window = window_create();
-    window_layer = window_get_root_layer(window);
+	window_layer = window_get_root_layer(window);
 	font_count = fonts_get_system_font(FONT_KEY_GOTHIC_28);
 
 	
 	text_layer = text_layer_create(GRect(0, 5, 144, 140));
-    text_layer_set_font(text_layer, font_count);
-    layer_add_child(window_layer, text_layer_get_layer(text_layer));
+	text_layer_set_font(text_layer, font_count);
+	layer_add_child(window_layer, text_layer_get_layer(text_layer));
 
-    window_stack_push(window, true /* Animated */);
-    tick_timer_service_subscribe(SECOND_UNIT, handle_second_tick);
+	window_stack_push(window, true /* Animated */);
+	tick_timer_service_subscribe(SECOND_UNIT, handle_second_tick);
 	//accel_service_set_sampling_rate(sample_freq); //This is the logicl place
 	accel_data_service_subscribe(25, &accel_data_handler);
 	accel_service_set_sampling_rate(sample_freq); //This is the place that works
@@ -110,15 +110,15 @@ void handle_init(void) {
 	
 	app_message_register_outbox_failed(out_failed_handler);
 	app_message_register_outbox_sent(out_received_handler);
-    app_message_open(64, 600);
+	app_message_open(64, 600);
 	timer = app_timer_register(timer_interval, timer_callback, NULL);
 	app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
 }
 
 void handle_deinit(void) {
-    tick_timer_service_unsubscribe();
+	tick_timer_service_unsubscribe();
 	app_comm_set_sniff_interval(SNIFF_INTERVAL_NORMAL);
-    app_message_deregister_callbacks();
+	app_message_deregister_callbacks();
 	free(acc_data);
 	text_layer_destroy(text_layer);
 	window_destroy(window);
